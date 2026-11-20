@@ -2,7 +2,7 @@
 /**
  * Plugin Name: GLOG Equipment Requests
  * Description: Гостевая подборка техники и заявки на покупку.
- * Version: 1.0.7
+ * Version: 1.0.8
  * Requires PHP: 7.4
  */
 
@@ -15,6 +15,7 @@ function glog_requests_settings(): array {
     return wp_parse_args(get_option('glog_requests_settings', []), [
         'days' => 30,
         'message' => 'Заявка №{номер} принята. Менеджер свяжется с вами, чтобы подтвердить цену и условия доставки.',
+        'price_notice' => 'ООО „ЛитиоТранс“ не осуществляет розничную и оптовую торговлю техникой с собственного склада. Компания оказывает услуги логистического агента по поиску, сопровождению сделки и доставке спецтехники под заказ для юридических лиц и ИП. Указанные цены носят справочный характер, не являются публичной офертой (ст. 407 ГК РБ) и используются для предварительного расчета стоимости услуг поставки.',
         'delivery' => '',
         'returns' => '',
         'privacy' => '',
@@ -34,8 +35,8 @@ function glog_requests_frontend(): void {
     }
     $loaded = true;
 
-    wp_enqueue_style('glog-equipment-requests', plugins_url('requests.css', __FILE__), [], '1.0.7');
-    wp_enqueue_script('glog-equipment-requests', plugins_url('requests.js', __FILE__), [], '1.0.7', true);
+    wp_enqueue_style('glog-equipment-requests', plugins_url('requests.css', __FILE__), [], '1.0.8');
+    wp_enqueue_script('glog-equipment-requests', plugins_url('requests.js', __FILE__), [], '1.0.8', true);
     add_action('wp_footer', 'glog_requests_dialog');
 }
 

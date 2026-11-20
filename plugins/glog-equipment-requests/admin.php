@@ -27,7 +27,11 @@ add_action('admin_init', function (): void {
                 $message = $current['message'];
             }
 
-            $settings = ['days' => $days === false ? $current['days'] : $days, 'message' => $message];
+            $settings = [
+                'days' => $days === false ? $current['days'] : $days,
+                'message' => $message,
+                'price_notice' => sanitize_textarea_field($input['price_notice'] ?? $current['price_notice']),
+            ];
             foreach (glog_requests_policy_labels() as $key => $label) {
                 $url = esc_url_raw($input[$key] ?? '', ['http', 'https']);
                 $parts = wp_parse_url($url);
@@ -71,6 +75,13 @@ function glog_requests_admin_settings(): void {
                     <td>
                         <textarea id="glog-message" class="large-text" required name="glog_requests_settings[message]" rows="3"><?php echo esc_textarea($settings['message']); ?></textarea>
                         <p class="description">Используйте <code>{номер}</code> для подстановки номера заявки.</p>
+                    </td>
+                </tr>
+                <tr>
+                    <th scope="row"><label for="glog-price-notice">Сноска к цене на странице техники</label></th>
+                    <td>
+                        <textarea id="glog-price-notice" class="large-text" name="glog_requests_settings[price_notice]" rows="5"><?php echo esc_textarea($settings['price_notice']); ?></textarea>
+                        <p class="description">Показывается под кнопкой и ссылками. Оставьте поле пустым, чтобы скрыть сноску.</p>
                     </td>
                 </tr>
                 <?php foreach (glog_requests_policy_labels() as $key => $label) : ?>

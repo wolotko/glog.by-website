@@ -327,11 +327,15 @@
     text-decoration: underline;
 }
 
-.glog-equipment-order p.glog-equipment-order-notice {
+.glog-equipment-order .glog-equipment-order-notice {
+    border-top: 1px solid #dfe4eb;
     color: #4b596a;
     font-size: 13px;
     line-height: 1.5;
-    margin: 12px 0 0;
+    margin: 14px 0 0;
+    padding-top: 10px;
+    overflow-wrap: anywhere;
+    white-space: pre-line;
 }
 
 .glog-request-add,
