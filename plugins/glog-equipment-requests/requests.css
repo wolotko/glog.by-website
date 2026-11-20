@@ -71,10 +71,26 @@
 #glog-requests-dialog .glog-requests-close {
     background: #f0f2f6;
     border-radius: 50%;
-    font-size: 23px;
     height: 42px;
-    line-height: 1;
+    padding: 0;
+    position: relative;
     width: 42px;
+}
+
+#glog-requests-dialog .glog-requests-close::before,
+#glog-requests-dialog .glog-requests-close::after {
+    background: currentColor;
+    content: "";
+    height: 2px;
+    left: 50%;
+    position: absolute;
+    top: 50%;
+    transform: translate(-50%, -50%) rotate(45deg);
+    width: 14px;
+}
+
+#glog-requests-dialog .glog-requests-close::after {
+    transform: translate(-50%, -50%) rotate(-45deg);
 }
 
 #glog-requests-dialog .glog-requests-text-button:hover {

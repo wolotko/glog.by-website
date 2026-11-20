@@ -2,7 +2,7 @@
 /**
  * Plugin Name: GLOG Equipment Requests
  * Description: Гостевая подборка техники и заявки на покупку.
- * Version: 1.0.6
+ * Version: 1.0.7
  * Requires PHP: 7.4
  */
 
@@ -34,8 +34,8 @@ function glog_requests_frontend(): void {
     }
     $loaded = true;
 
-    wp_enqueue_style('glog-equipment-requests', plugins_url('requests.css', __FILE__), [], '1.0.6');
-    wp_enqueue_script('glog-equipment-requests', plugins_url('requests.js', __FILE__), [], '1.0.6', true);
+    wp_enqueue_style('glog-equipment-requests', plugins_url('requests.css', __FILE__), [], '1.0.7');
+    wp_enqueue_script('glog-equipment-requests', plugins_url('requests.js', __FILE__), [], '1.0.7', true);
     add_action('wp_footer', 'glog_requests_dialog');
 }
 
@@ -66,7 +66,7 @@ function glog_requests_dialog(): void {
             data-endpoint="<?php echo esc_url(add_query_arg('action', 'glog_equipment_request', admin_url('admin-ajax.php', 'relative'))); ?>">
         <header class="glog-requests-heading">
             <h2 id="glog-requests-title">Корзина</h2>
-            <form id="glog-requests-close" method="dialog"><button class="glog-requests-close" type="submit" aria-label="Закрыть" autofocus>×</button></form>
+            <form id="glog-requests-close" method="dialog"><button class="glog-requests-close" type="submit" aria-label="Закрыть" autofocus></button></form>
         </header>
         <p data-glog-dialog-status role="status" aria-live="polite"></p>
         <p data-glog-add-error hidden><a href="<?php echo esc_url(home_url('/contacts/')); ?>">Перейти в контакты</a></p>
