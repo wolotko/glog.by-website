@@ -24,6 +24,7 @@
         if (!response.ok || !result.success) {
             const error = new Error(result.data?.message || 'Не удалось выполнить действие.');
             error.status = response.status;
+            error.fields = result.data?.fields;
             throw error;
         }
         return result.data;
@@ -179,10 +180,40 @@
         trigger = null;
     });
 
+    function setFieldError(field, message = '') {
+        const description = document.getElementById(field.getAttribute('aria-describedby'));
+        if (!description) return;
+        description.textContent = message;
+        description.hidden = !message;
+        if (message) field.setAttribute('aria-invalid', 'true');
+        else field.removeAttribute('aria-invalid');
+    }
+
+    let invalidScheduled = false;
+    form.addEventListener('invalid', event => {
+        const field = event.target;
+        if (!field.dataset.requiredMessage) return;
+        event.preventDefault();
+        status.textContent = '';
+        setFieldError(field, field.validity.valueMissing ? field.dataset.requiredMessage : field.validationMessage);
+        if (!invalidScheduled) {
+            invalidScheduled = true;
+            queueMicrotask(() => {
+                invalidScheduled = false;
+                form.querySelector('[aria-invalid="true"]')?.focus();
+            });
+        }
+    }, true);
+
+    form.addEventListener('input', event => {
+        if (event.target.hasAttribute('aria-invalid')) setFieldError(event.target);
+    });
+
     form.addEventListener('submit', event => {
         event.preventDefault();
         const data = Object.fromEntries(new FormData(form));
         run(async () => {
+            form.querySelectorAll('[aria-invalid]').forEach(field => setFieldError(field));
             submit.disabled = true;
             status.textContent = 'Сохраняем заявку…';
             try {
@@ -193,6 +224,17 @@
                 updateCount(0);
                 status.textContent = confirmation.message;
                 dialog.querySelector('[autofocus]').focus();
+            } catch (error) {
+                if (!error.fields) throw error;
+                let first;
+                for (const field of form.elements) {
+                    if (!Object.prototype.hasOwnProperty.call(error.fields, field.name)) continue;
+                    setFieldError(field, error.fields[field.name]);
+                    first ||= field;
+                }
+                if (!first) throw error;
+                status.textContent = '';
+                first.focus();
             } finally {
                 submit.disabled = false;
             }

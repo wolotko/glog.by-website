@@ -245,17 +245,33 @@ function glog_requests_submit($active, array $cart, int $revision, array $input,
     }
 
     $customer = [];
-    foreach (['name' => 120, 'phone' => 40, 'address' => 300] as $field => $limit) {
+    $fields = [];
+    foreach ([
+        'name' => [120, 'Укажите имя.'],
+        'phone' => [40, 'Укажите номер телефона.'],
+        'address' => [300, 'Укажите адрес доставки.'],
+    ] as $field => [$limit, $message]) {
         $value = $input[$field] ?? '';
         $value = is_string($value) ? sanitize_text_field($value) : '';
-        if ($value === '' || strlen($value) > $limit * 4 || preg_match_all('/./us', $value) > $limit) {
-            glog_requests_error('Проверьте имя, телефон и адрес доставки.', 400);
+        if ($value === '') {
+            $fields[$field] = $message;
+        } elseif (strlen($value) > $limit * 4 || preg_match_all('/./us', $value) > $limit) {
+            $fields[$field] = sprintf('Не более %d символов.', $limit);
         }
         $customer[$field] = $value;
     }
-    $digits = strlen(preg_replace('/[^0-9]/', '', $customer['phone']));
-    if ($digits < 7 || $digits > 15) {
-        glog_requests_error('Проверьте номер телефона.', 400);
+    if (!isset($fields['phone'])) {
+        $phone = $customer['phone'];
+        $digits = strlen(preg_replace('/[^0-9]/', '', $phone));
+        if ($digits < 7 || $digits > 15 || !preg_match('/^\+?[0-9().\s-]+$/D', $phone)) {
+            $fields['phone'] = 'Введите номер телефона, например +375 29 123-45-67.';
+        }
+    }
+    if (!isset($input['consent_version'])) {
+        $fields['consent_version'] = 'Подтвердите согласие на обработку данных.';
+    }
+    if ($fields) {
+        wp_send_json_error(['fields' => $fields], 400);
     }
 
     $privacy = glog_requests_settings()['privacy'];
@@ -263,9 +279,6 @@ function glog_requests_submit($active, array $cart, int $revision, array $input,
         glog_requests_error('Условия обработки данных изменились или ещё не опубликованы. Обновите страницу перед отправкой заявки.', 409);
     }
 
-    if (!isset($input['consent_version'])) {
-        glog_requests_error('Подтвердите согласие на обработку персональных данных.', 400);
-    }
     if ($input['consent_version'] !== GLOG_REQUESTS_CONSENT_VERSION) {
         glog_requests_error('Текст согласия изменился. Обновите страницу перед отправкой заявки.', 409);
     }

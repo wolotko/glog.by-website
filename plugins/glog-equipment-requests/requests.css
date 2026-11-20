@@ -188,8 +188,8 @@
 }
 
 #glog-requests-dialog .glog-requests-fields label {
-    display: grid;
-    gap: 4px;
+    display: block;
+    margin-bottom: 4px;
 }
 
 #glog-requests-dialog .glog-requests-fields input {
@@ -245,6 +245,18 @@
 #glog-requests-dialog .glog-requests-consent label {
     cursor: pointer;
     display: block;
+}
+
+#glog-requests-dialog .glog-requests-field-error:not([hidden]) {
+    color: #a42723;
+    display: block;
+    font-size: 13px;
+    margin: 4px 0 0;
+}
+
+#glog-requests-dialog input[aria-invalid="true"] {
+    border-color: #a42723;
+    outline: 1px solid #a42723;
 }
 
 #glog-requests-dialog .glog-requests-actions {

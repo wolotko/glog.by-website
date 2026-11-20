@@ -2,7 +2,7 @@
 /**
  * Plugin Name: GLOG Equipment Requests
  * Description: Гостевая подборка техники и заявки на покупку.
- * Version: 1.0.4
+ * Version: 1.0.5
  * Requires PHP: 7.4
  */
 
@@ -34,8 +34,8 @@ function glog_requests_frontend(): void {
     }
     $loaded = true;
 
-    wp_enqueue_style('glog-equipment-requests', plugins_url('requests.css', __FILE__), [], '1.0.4');
-    wp_enqueue_script('glog-equipment-requests', plugins_url('requests.js', __FILE__), [], '1.0.4', true);
+    wp_enqueue_style('glog-equipment-requests', plugins_url('requests.css', __FILE__), [], '1.0.5');
+    wp_enqueue_script('glog-equipment-requests', plugins_url('requests.js', __FILE__), [], '1.0.5', true);
     add_action('wp_footer', 'glog_requests_dialog');
 }
 
@@ -75,9 +75,24 @@ function glog_requests_dialog(): void {
             <h3>Заявка на поставку</h3>
             <input type="hidden" name="privacy" value="<?php echo esc_attr($settings['privacy']); ?>">
             <div class="glog-requests-fields">
-                <label>Имя <input name="name" autocomplete="name" placeholder="Ваше имя" maxlength="120" required></label>
-                <label>Телефон <input name="phone" type="tel" autocomplete="tel" placeholder="+375" maxlength="40" required></label>
-                <label class="glog-requests-address">Адрес доставки <input name="address" autocomplete="street-address" placeholder="Город, улица, дом" maxlength="300" required></label>
+                <div>
+                    <label for="glog-requests-name">Имя</label>
+                    <input id="glog-requests-name" name="name" autocomplete="name" placeholder="Ваше имя" maxlength="120"
+                           aria-describedby="glog-requests-name-error" data-required-message="Укажите имя." required>
+                    <span class="glog-requests-field-error" id="glog-requests-name-error" hidden></span>
+                </div>
+                <div>
+                    <label for="glog-requests-phone">Телефон</label>
+                    <input id="glog-requests-phone" name="phone" type="tel" autocomplete="tel" placeholder="+375" maxlength="40"
+                           aria-describedby="glog-requests-phone-error" data-required-message="Укажите номер телефона." required>
+                    <span class="glog-requests-field-error" id="glog-requests-phone-error" hidden></span>
+                </div>
+                <div class="glog-requests-address">
+                    <label for="glog-requests-address">Адрес доставки</label>
+                    <input id="glog-requests-address" name="address" autocomplete="street-address" placeholder="Город, улица, дом" maxlength="300"
+                           aria-describedby="glog-requests-address-error" data-required-message="Укажите адрес доставки." required>
+                    <span class="glog-requests-field-error" id="glog-requests-address-error" hidden></span>
+                </div>
             </div>
             <ul class="glog-requests-policies">
                 <?php foreach (glog_requests_policy_labels() as $key => $label) : ?>
@@ -88,12 +103,14 @@ function glog_requests_dialog(): void {
             </ul>
             <div class="glog-requests-consent">
                 <input id="glog-requests-consent" type="checkbox" name="consent_version"
-                       value="<?php echo esc_attr(GLOG_REQUESTS_CONSENT_VERSION); ?>" required>
+                       value="<?php echo esc_attr(GLOG_REQUESTS_CONSENT_VERSION); ?>"
+                       aria-describedby="glog-requests-consent-error" data-required-message="Подтвердите согласие на обработку данных." required>
                 <div>
                     <label for="glog-requests-consent"><?php echo esc_html(glog_requests_consent_text()); ?></label>
                     <?php if ($settings['privacy']) : ?>
                         <a href="<?php echo esc_url($settings['privacy']); ?>" target="_blank" rel="noopener">Условия обработки персональных данных</a>
                     <?php endif; ?>
+                    <span class="glog-requests-field-error" id="glog-requests-consent-error" hidden></span>
                 </div>
             </div>
         </form>
