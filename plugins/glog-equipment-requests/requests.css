@@ -1,0 +1,118 @@
+.glog-requests-dialog {
+    border: 0;
+    border-radius: 12px;
+    box-shadow: 0 16px 48px rgb(0 0 0 / 24%);
+    box-sizing: border-box;
+    color: #101e34;
+    margin: auto;
+    max-height: 90vh;
+    overflow: auto;
+    padding: 24px;
+    width: min(640px, calc(100% - 32px));
+}
+
+.glog-requests-dialog::backdrop {
+    background: rgb(10 21 36 / 55%);
+}
+
+.glog-requests-dialog [hidden],
+.glog-request-feedback[hidden],
+.glog-request-feedback [hidden],
+.glog-request-open [hidden] {
+    display: none;
+}
+
+.glog-requests-heading {
+    align-items: center;
+    display: flex;
+    justify-content: space-between;
+}
+
+.glog-requests-heading h2 {
+    margin: 0;
+}
+
+.glog-requests-dialog button,
+.glog-request-add,
+.glog-request-open,
+.glog-request-feedback button {
+    background: #edf2f8;
+    border: 1px solid #c6d3e1;
+    border-radius: 6px;
+    color: #101e34;
+    cursor: pointer;
+    font: inherit;
+    padding: 7px 12px;
+}
+
+.glog-requests-dialog [data-glog-checkout] button {
+    background: #173858;
+    border-color: #173858;
+    color: #fff;
+}
+
+.glog-requests-dialog button:disabled {
+    cursor: wait;
+    opacity: 0.65;
+}
+
+.glog-requests-dialog label,
+.glog-request-items li > span {
+    display: block;
+}
+
+.glog-requests-dialog input {
+    box-sizing: border-box;
+    color: inherit;
+    font: inherit;
+    margin-bottom: 8px;
+}
+
+.glog-requests-dialog input:not([type="number"]) {
+    display: block;
+    width: 100%;
+}
+
+.glog-requests-dialog input[type="number"] {
+    width: 5em;
+}
+
+.glog-requests-policies,
+.glog-request-items {
+    list-style: none;
+    padding: 0;
+}
+
+.glog-request-items li {
+    border-bottom: 1px solid #e1e7ee;
+    padding: 8px 0;
+}
+
+.glog-requests-dialog a {
+    color: inherit;
+    text-decoration: underline;
+}
+
+.glog-request-feedback {
+    background: #fff;
+    border: 1px solid #c6d3e1;
+    border-radius: 8px;
+    bottom: 16px;
+    color: #101e34;
+    max-width: calc(100% - 32px);
+    padding: 10px 12px;
+    position: fixed;
+    right: 16px;
+    z-index: 9999;
+}
+
+@media (max-width: 540px) {
+    .glog-requests-dialog {
+        border-radius: 0;
+        height: 100%;
+        max-height: 100%;
+        max-width: 100%;
+        padding: 16px;
+        width: 100%;
+    }
+}
