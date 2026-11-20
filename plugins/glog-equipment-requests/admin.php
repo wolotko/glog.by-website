@@ -167,6 +167,15 @@ function glog_requests_admin_detail($row): void {
         </tbody>
     </table>
     <p><strong>Расчётная сумма:</strong> <?php echo esc_html(glog_requests_admin_price($request['total'])); ?></p>
-    <p><a href="<?php echo esc_url($request['privacy']['url']); ?>">Условия обработки данных</a>. <?php echo esc_html($request['privacy']['notice']); ?></p>
+    <p>
+        <?php if (!empty($request['privacy']['url'])) : ?>
+            <a href="<?php echo esc_url($request['privacy']['url']); ?>">Условия обработки данных</a>.
+        <?php endif; ?>
+        <?php echo esc_html($request['privacy']['notice'] ?? ''); ?>
+    </p>
+    <?php if (!empty($request['privacy']['consented_at'])) : ?>
+        <p>Согласие получено <?php echo esc_html(wp_date('d.m.Y H:i', (int) $request['privacy']['consented_at'])); ?>.
+            Версия текста <?php echo esc_html($request['privacy']['consent_version']); ?>.</p>
+    <?php endif; ?>
     <?php
 }

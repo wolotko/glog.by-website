@@ -2,7 +2,7 @@
 /**
  * Plugin Name: GLOG Equipment Requests
  * Description: Гостевая подборка техники и заявки на покупку.
- * Version: 1.0.2
+ * Version: 1.0.3
  * Requires PHP: 7.4
  */
 
@@ -21,8 +21,10 @@ function glog_requests_settings(): array {
     ]);
 }
 
-function glog_requests_disclosure(): string {
-    return 'Используем имя, телефон и адрес доставки, чтобы обработать заявку и связаться с вами.';
+const GLOG_REQUESTS_CONSENT_VERSION = '1';
+
+function glog_requests_consent_text(): string {
+    return 'Даю согласие на обработку имени, номера телефона и адреса доставки для рассмотрения заявки и связи со мной.';
 }
 
 function glog_requests_frontend(): void {
@@ -32,8 +34,8 @@ function glog_requests_frontend(): void {
     }
     $loaded = true;
 
-    wp_enqueue_style('glog-equipment-requests', plugins_url('requests.css', __FILE__), [], '1.0.2');
-    wp_enqueue_script('glog-equipment-requests', plugins_url('requests.js', __FILE__), [], '1.0.2', true);
+    wp_enqueue_style('glog-equipment-requests', plugins_url('requests.css', __FILE__), [], '1.0.3');
+    wp_enqueue_script('glog-equipment-requests', plugins_url('requests.js', __FILE__), [], '1.0.3', true);
     add_action('wp_footer', 'glog_requests_dialog');
 }
 
@@ -77,14 +79,23 @@ function glog_requests_dialog(): void {
                 <label>Телефон <input name="phone" type="tel" autocomplete="tel" placeholder="+375" maxlength="40" required></label>
                 <label class="glog-requests-address">Адрес доставки <input name="address" autocomplete="street-address" placeholder="Город, улица, дом" maxlength="300" required></label>
             </div>
-            <p class="glog-requests-note"><?php echo esc_html(glog_requests_disclosure()); ?></p>
             <ul class="glog-requests-policies">
                 <?php foreach (glog_requests_policy_labels() as $key => $label) : ?>
-                    <?php if ($settings[$key]) : ?>
+                    <?php if ($key !== 'privacy' && $settings[$key]) : ?>
                         <li><a href="<?php echo esc_url($settings[$key]); ?>" target="_blank" rel="noopener"><?php echo esc_html($key === 'delivery' ? 'Условия поставки и оплаты' : $label); ?></a></li>
                     <?php endif; ?>
                 <?php endforeach; ?>
             </ul>
+            <div class="glog-requests-consent">
+                <input id="glog-requests-consent" type="checkbox" name="consent_version"
+                       value="<?php echo esc_attr(GLOG_REQUESTS_CONSENT_VERSION); ?>" required>
+                <div>
+                    <label for="glog-requests-consent"><?php echo esc_html(glog_requests_consent_text()); ?></label>
+                    <?php if ($settings['privacy']) : ?>
+                        <a href="<?php echo esc_url($settings['privacy']); ?>" target="_blank" rel="noopener">Условия обработки персональных данных</a>
+                    <?php endif; ?>
+                </div>
+            </div>
         </form>
         <div class="glog-requests-actions">
             <button class="btn btn-accent glog-equipment-order-button" type="submit" form="glog-requests-checkout">Отправить заявку</button>

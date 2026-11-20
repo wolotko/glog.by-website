@@ -207,7 +207,6 @@
     width: 100%;
 }
 
-#glog-requests-dialog [data-glog-checkout] .glog-requests-note,
 #glog-requests-dialog .glog-requests-policies {
     margin-top: 8px;
 }
@@ -218,12 +217,34 @@
     gap: 3px 12px;
 }
 
+#glog-requests-dialog .glog-requests-consent a,
 #glog-requests-dialog .glog-requests-policies a,
 #glog-requests-dialog [data-glog-add-error] a {
     color: inherit;
     font-size: 13px;
     text-decoration: underline;
     text-underline-offset: 3px;
+}
+
+#glog-requests-dialog .glog-requests-consent {
+    align-items: start;
+    display: grid;
+    gap: 10px;
+    grid-template-columns: auto minmax(0, 1fr);
+    font-size: 13px;
+    margin-top: 12px;
+}
+
+#glog-requests-dialog .glog-requests-consent input {
+    accent-color: var(--btn-color, #f56a1c);
+    height: 20px;
+    margin: 0;
+    width: 20px;
+}
+
+#glog-requests-dialog .glog-requests-consent label {
+    cursor: pointer;
+    display: block;
 }
 
 #glog-requests-dialog .glog-requests-actions {

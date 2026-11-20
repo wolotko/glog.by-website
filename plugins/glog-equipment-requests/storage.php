@@ -263,13 +263,25 @@ function glog_requests_submit($active, array $cart, int $revision, array $input,
         glog_requests_error('Условия обработки данных изменились или ещё не опубликованы. Обновите страницу перед отправкой заявки.', 409);
     }
 
+    if (!isset($input['consent_version'])) {
+        glog_requests_error('Подтвердите согласие на обработку персональных данных.', 400);
+    }
+    if ($input['consent_version'] !== GLOG_REQUESTS_CONSENT_VERSION) {
+        glog_requests_error('Текст согласия изменился. Обновите страницу перед отправкой заявки.', 409);
+    }
+
     $request = [
         'version' => 1,
         'customer' => $customer,
         'items' => $snapshot['items'],
         'total' => $snapshot['total'],
         'currency' => $snapshot['currency'],
-        'privacy' => ['notice' => glog_requests_disclosure(), 'url' => $privacy],
+        'privacy' => [
+            'notice' => glog_requests_consent_text(),
+            'url' => $privacy,
+            'consent_version' => GLOG_REQUESTS_CONSENT_VERSION,
+            'consented_at' => $now,
+        ],
     ];
     $table = glog_requests_table();
     $saved = $wpdb->update($table, [
