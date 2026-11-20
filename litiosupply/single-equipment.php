@@ -61,6 +61,11 @@
                         </div>
                         */ ?>
                         <div class="basic-options-row">
+                            <div>Код позиции</div>
+                            <i></i>
+                            <div><?php echo esc_html(sprintf('GLG-1%05d', get_the_ID())); ?></div>
+                        </div>
+                        <div class="basic-options-row">
                             <div>Год выпуска</div>
                             <i></i>
                             <div><?php echo get_field('equipment_year'); ?></div>
