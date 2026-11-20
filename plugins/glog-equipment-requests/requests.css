@@ -255,7 +255,14 @@
     margin-top: 13px;
 }
 
-.glog-equipment-order .glog-equipment-order-button,
+.glog-equipment-order .glog-equipment-order-button {
+    box-sizing: border-box;
+    font-size: 14px;
+    line-height: 1.2;
+    min-height: 44px;
+    padding: 8px 20px;
+}
+
 #glog-requests-dialog .glog-requests-actions .glog-equipment-order-button {
     box-sizing: border-box;
     cursor: pointer;

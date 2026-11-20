@@ -196,13 +196,13 @@ function glog_requests_ajax(): void {
         if (!glog_requests_product($id, 1, 0)) {
             glog_requests_error('Эта позиция недоступна.', 404);
         }
-        if (($cart[$id] ?? 0) >= GLOG_REQUESTS_MAX_QUANTITY) {
-            glog_requests_error('Достигнуто максимальное количество для этой позиции.', 400);
+        if (isset($cart[$id])) {
+            wp_send_json_success(glog_requests_snapshot($cart, $revision));
         }
-        if (!isset($cart[$id]) && count($cart) >= GLOG_REQUESTS_MAX_LINES) {
+        if (count($cart) >= GLOG_REQUESTS_MAX_LINES) {
             glog_requests_error('Подборка заполнена.', 400);
         }
-        $cart[$id] = ($cart[$id] ?? 0) + 1;
+        $cart[$id] = 1;
     } else {
         $quantity = filter_var($input['quantity'] ?? null, FILTER_VALIDATE_INT, [
             'options' => ['min_range' => 0, 'max_range' => GLOG_REQUESTS_MAX_QUANTITY],

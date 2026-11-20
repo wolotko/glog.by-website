@@ -232,7 +232,7 @@
                             <?php if($pid == 69):  ?>
                                 <a href="#contacts" form class="btn btn-accent px-5 py-3">Let’s talk</a>
                             <?php else : ?>
-                                <a href="#contacts" form class="btn btn-accent btn-header">&nbsp;Рассчитать&nbsp;<br>&nbsp;поставку&nbsp;</a>
+                                <a href="<?php echo esc_url(home_url('/contacts/')); ?>" class="btn btn-accent btn-header">&nbsp;Рассчитать&nbsp;<br>&nbsp;поставку&nbsp;</a>
                             <?php endif; ?>
                         </div>
                     </div>
