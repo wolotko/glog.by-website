@@ -2,7 +2,7 @@
 /**
  * Plugin Name: GLOG Equipment Requests
  * Description: Гостевая подборка техники и заявки на покупку.
- * Version: 1.0.10
+ * Version: 1.0.11
  * Requires PHP: 7.4
  */
 
@@ -35,8 +35,8 @@ function glog_requests_frontend(): void {
     }
     $loaded = true;
 
-    wp_enqueue_style('glog-equipment-requests', plugins_url('requests.css', __FILE__), [], '1.0.10');
-    wp_enqueue_script('glog-equipment-requests', plugins_url('requests.js', __FILE__), [], '1.0.10', true);
+    wp_enqueue_style('glog-equipment-requests', plugins_url('requests.css', __FILE__), [], '1.0.11');
+    wp_enqueue_script('glog-equipment-requests', plugins_url('requests.js', __FILE__), [], '1.0.11', true);
     add_action('wp_footer', 'glog_requests_dialog');
 }
 

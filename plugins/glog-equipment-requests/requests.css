@@ -371,7 +371,7 @@
 .glog-request-open-icon .glog-request-count {
     background: var(--btn-color, #f56a1c);
     border-radius: 12px;
-    color: #0b2342;
+    color: #fff;
     font-size: 11px;
     font-weight: 700;
     line-height: 17px;
