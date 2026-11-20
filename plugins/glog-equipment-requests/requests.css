@@ -233,6 +233,12 @@
     grid-template-columns: auto minmax(0, 1fr);
     font-size: 13px;
     margin-top: 12px;
+    border-radius: 8px;
+    padding: 8px 10px;
+}
+
+#glog-requests-dialog .glog-requests-consent:has(input[aria-invalid="true"]) {
+    background: #fff3f1;
 }
 
 #glog-requests-dialog .glog-requests-consent input {
@@ -254,7 +260,7 @@
     margin: 4px 0 0;
 }
 
-#glog-requests-dialog input[aria-invalid="true"] {
+#glog-requests-dialog .glog-requests-fields input[aria-invalid="true"] {
     border-color: #a42723;
     outline: 1px solid #a42723;
 }
