@@ -161,10 +161,15 @@
                             </svg>
                         </a>
                     </div>
-                    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav"
-                        aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
-                        <i class="fa-solid fa-bars-staggered accent-color-new"></i>
-                    </button>
+                    <div class="d-flex d-lg-none align-items-center ms-auto">
+                        <?php if (shortcode_exists('glog_equipment_cart')) : ?>
+                            <?php echo do_shortcode('[glog_equipment_cart icon="1"]'); ?>
+                        <?php endif; ?>
+                        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav"
+                            aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+                            <i class="fa-solid fa-bars-staggered accent-color-new"></i>
+                        </button>
+                    </div>
                     <div class="collapse navbar-collapse" id="navbarNav">
                         <ul class="navbar-nav mx-auto mb-2 mb-lg-0 gap-lg-4 gap-1">
                             <li class="nav-item">
@@ -228,7 +233,12 @@
                             
                             
                         </ul>
-                        <div class="mb-xl-0 mb-3">
+                        <div class="mb-xl-0 mb-3 d-flex align-items-center gap-2">
+                            <?php if (shortcode_exists('glog_equipment_cart')) : ?>
+                                <div class="d-none d-lg-block">
+                                    <?php echo do_shortcode('[glog_equipment_cart icon="1"]'); ?>
+                                </div>
+                            <?php endif; ?>
                             <?php if($pid == 69):  ?>
                                 <a href="#contacts" form class="btn btn-accent px-5 py-3">Let’s talk</a>
                             <?php else : ?>

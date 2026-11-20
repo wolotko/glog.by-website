@@ -349,6 +349,40 @@
     padding: 7px 12px;
 }
 
+.glog-request-open.glog-request-open-icon {
+    align-items: center;
+    background: transparent;
+    border: 0;
+    border-radius: 50%;
+    color: var(--text-color, #0b2342);
+    display: inline-flex;
+    flex: 0 0 44px;
+    height: 44px;
+    justify-content: center;
+    padding: 0;
+    position: relative;
+    width: 44px;
+}
+
+.glog-request-open.glog-request-open-icon:hover {
+    background: #f0f2f6;
+}
+
+.glog-request-open-icon .glog-request-count {
+    background: var(--btn-color, #f56a1c);
+    border-radius: 12px;
+    color: #0b2342;
+    font-size: 11px;
+    font-weight: 700;
+    line-height: 17px;
+    min-width: 17px;
+    padding: 0 4px;
+    position: absolute;
+    right: 0;
+    text-align: center;
+    top: 1px;
+}
+
 @media (max-width: 540px) {
     #glog-requests-dialog {
         border-radius: 0;

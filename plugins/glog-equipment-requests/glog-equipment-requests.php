@@ -2,7 +2,7 @@
 /**
  * Plugin Name: GLOG Equipment Requests
  * Description: Гостевая подборка техники и заявки на покупку.
- * Version: 1.0.9
+ * Version: 1.0.10
  * Requires PHP: 7.4
  */
 
@@ -35,8 +35,8 @@ function glog_requests_frontend(): void {
     }
     $loaded = true;
 
-    wp_enqueue_style('glog-equipment-requests', plugins_url('requests.css', __FILE__), [], '1.0.9');
-    wp_enqueue_script('glog-equipment-requests', plugins_url('requests.js', __FILE__), [], '1.0.9', true);
+    wp_enqueue_style('glog-equipment-requests', plugins_url('requests.css', __FILE__), [], '1.0.10');
+    wp_enqueue_script('glog-equipment-requests', plugins_url('requests.js', __FILE__), [], '1.0.10', true);
     add_action('wp_footer', 'glog_requests_dialog');
 }
 
@@ -55,8 +55,22 @@ add_shortcode('glog_equipment_add', function ($atts): string {
     );
 });
 
-add_shortcode('glog_equipment_cart', function (): string {
+add_shortcode('glog_equipment_cart', function ($atts): string {
     glog_requests_frontend();
+    $atts = shortcode_atts(['icon' => '0'], $atts);
+    if ($atts['icon'] === '1') {
+        return '<button type="button" class="glog-request-open glog-request-open-icon" data-glog-open
+                    aria-haspopup="dialog" aria-controls="glog-requests-dialog" title="Корзина">
+                    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                         stroke-width="1.65" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                        <path d="M2.5 3.5h2l2.6 11.1a1 1 0 0 0 1 .8h9.6a1 1 0 0 0 1-.8l1.6-7.1H5.4"/>
+                        <circle cx="9" cy="19.5" r="1.1"/>
+                        <circle cx="17" cy="19.5" r="1.1"/>
+                    </svg>
+                    <span class="visually-hidden">Корзина</span>
+                    <span class="glog-request-count" data-glog-count hidden></span>
+                </button>';
+    }
     return '<button type="button" class="glog-request-open" data-glog-open aria-haspopup="dialog">Корзина <span data-glog-count hidden></span></button>';
 });
 
