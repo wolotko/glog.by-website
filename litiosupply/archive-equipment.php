@@ -76,15 +76,14 @@
                                             <?php endforeach; ?>
                                         </div>
                     
-                                        <div class="book mt-30">
-                                            <a href="<?php echo home_url('/contacts/'); ?>"
-                                                   class="button-3"
-                                                   data-source-id="<?php echo get_field('truck_id'); ?>">
-                                                Запросить цену
+                                        <div class="book mt-30 glog-equipment-order">
+                                            <a href="<?php the_permalink(); ?>" class="button-3">Подробнее</a>
+                                            <?php if (function_exists('glog_requests_frontend')) { glog_requests_frontend(); } ?>
+                                            <a href="<?php echo esc_url(home_url('/contacts/')); ?>"
+                                               class="button-3"
+                                               <?php if (function_exists('glog_requests_frontend')) : ?>data-glog-add="<?php echo esc_attr(get_the_ID()); ?>"<?php endif; ?>>
+                                                В корзину
                                             </a>
-                                                
-                    
-                                            <a href="<?php the_permalink();; ?>"class="button-3">Подробнее</a>
                                         </div>
                     
                                     </div>

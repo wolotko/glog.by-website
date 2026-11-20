@@ -16,8 +16,6 @@
 }
 
 .glog-requests-dialog [hidden],
-.glog-request-feedback[hidden],
-.glog-request-feedback [hidden],
 .glog-request-open [hidden] {
     display: none;
 }
@@ -34,8 +32,7 @@
 
 .glog-requests-dialog button,
 .glog-request-add,
-.glog-request-open,
-.glog-request-feedback button {
+.glog-request-open {
     background: #edf2f8;
     border: 1px solid #c6d3e1;
     border-radius: 6px;
@@ -93,17 +90,21 @@
     text-decoration: underline;
 }
 
-.glog-request-feedback {
-    background: #fff;
-    border: 1px solid #c6d3e1;
-    border-radius: 8px;
-    bottom: 16px;
-    color: #101e34;
-    max-width: calc(100% - 32px);
-    padding: 10px 12px;
-    position: fixed;
-    right: 16px;
-    z-index: 9999;
+.glog-equipment-order .button-3,
+.glog-equipment-order a[btn] {
+    box-sizing: border-box;
+}
+
+.glog-equipment-order-links {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 4px 16px;
+    margin: 8px 0 0;
+    font-size: 13px;
+}
+
+.glog-equipment-order-links a {
+    text-decoration: underline;
 }
 
 @media (max-width: 540px) {

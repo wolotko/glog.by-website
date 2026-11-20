@@ -1,19 +1,16 @@
 (() => {
     const dialog = document.querySelector('#glog-requests-dialog');
-    if (!dialog) return;
+    if (!dialog || typeof dialog.showModal !== 'function' || typeof fetch !== 'function') return;
 
     const cart = dialog.querySelector('[data-glog-cart]');
     const status = dialog.querySelector('[data-glog-dialog-status]');
     const form = dialog.querySelector('[data-glog-checkout]');
-    const feedback = document.querySelector('[data-glog-feedback]');
-    const feedbackText = feedback.querySelector('[data-glog-feedback-text]');
-    const feedbackLink = feedback.querySelector('[data-glog-open]');
+    const addError = dialog.querySelector('[data-glog-add-error]');
     const format = new Intl.NumberFormat('ru-BY');
     let quote = '';
     let pending = false;
     let trigger;
     let revision = 0;
-    let feedbackTimer;
 
     async function call(operation, data = {}) {
         const response = await fetch(dialog.dataset.endpoint, {
@@ -123,35 +120,28 @@
 
     document.addEventListener('click', event => {
         const button = event.target.closest('[data-glog-add], [data-glog-open]');
-        if (!button || pending) return;
-        if (button.hasAttribute('data-glog-add')) {
-            clearTimeout(feedbackTimer);
-            feedback.hidden = false;
-            feedbackLink.hidden = true;
-            feedbackText.textContent = 'Добавляем…';
-            run(async () => {
-                const data = await call('add', { product_id: Number(button.dataset.glogAdd) });
-                render(data);
-                feedbackText.textContent = 'Добавлено в корзину.';
-                feedbackLink.hidden = false;
-                feedbackTimer = window.setTimeout(() => {
-                    if (!feedback.contains(document.activeElement) && trigger !== feedbackLink) {
-                        feedback.hidden = true;
-                    }
-                }, 8000);
-            }, feedbackText);
-            return;
-        }
+        if (!button || event.defaultPrevented || event.button !== 0 || event.metaKey || event.ctrlKey || event.shiftKey || event.altKey) return;
 
-        if (dialog.open) return;
+        event.preventDefault();
+        if (pending || dialog.open) return;
+        const adding = button.hasAttribute('data-glog-add');
         trigger = button;
-        dialog.showModal();
-        status.textContent = 'Загружаем…';
+        status.textContent = adding ? 'Добавляем…' : 'Загружаем…';
+        addError.hidden = true;
         cart.replaceChildren();
         form.hidden = true;
+        dialog.showModal();
         run(async () => {
-            render(await call('read'));
-            status.textContent = '';
+            try {
+                const data = adding
+                    ? await call('add', { product_id: Number(button.dataset.glogAdd) })
+                    : await call('read');
+                render(data);
+                status.textContent = adding ? 'Добавлено в корзину.' : '';
+            } catch (error) {
+                addError.hidden = !adding;
+                throw error;
+            }
         }, status);
     });
 

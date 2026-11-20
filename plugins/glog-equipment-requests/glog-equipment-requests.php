@@ -2,7 +2,7 @@
 /**
  * Plugin Name: GLOG Equipment Requests
  * Description: Гостевая подборка техники и заявки на покупку.
- * Version: 1.0.0
+ * Version: 1.0.1
  * Requires PHP: 7.4
  */
 
@@ -32,8 +32,8 @@ function glog_requests_frontend(): void {
     }
     $loaded = true;
 
-    wp_enqueue_style('glog-equipment-requests', plugins_url('requests.css', __FILE__), [], '1.0.0');
-    wp_enqueue_script('glog-equipment-requests', plugins_url('requests.js', __FILE__), [], '1.0.0', true);
+    wp_enqueue_style('glog-equipment-requests', plugins_url('requests.css', __FILE__), [], '1.0.1');
+    wp_enqueue_script('glog-equipment-requests', plugins_url('requests.js', __FILE__), [], '1.0.1', true);
     add_action('wp_footer', 'glog_requests_dialog');
 }
 
@@ -60,10 +60,6 @@ add_shortcode('glog_equipment_cart', function (): string {
 function glog_requests_dialog(): void {
     $settings = glog_requests_settings();
     ?>
-    <div class="glog-request-feedback" data-glog-feedback role="status" hidden>
-        <span data-glog-feedback-text></span>
-        <button type="button" data-glog-open hidden>Перейти в корзину</button>
-    </div>
     <dialog class="glog-requests-dialog" id="glog-requests-dialog" aria-labelledby="glog-requests-title"
             data-endpoint="<?php echo esc_url(add_query_arg('action', 'glog_equipment_request', admin_url('admin-ajax.php', 'relative'))); ?>">
         <header class="glog-requests-heading">
@@ -71,6 +67,7 @@ function glog_requests_dialog(): void {
             <form method="dialog"><button type="submit" aria-label="Закрыть" autofocus>×</button></form>
         </header>
         <p data-glog-dialog-status role="status" aria-live="polite"></p>
+        <p data-glog-add-error hidden><a href="<?php echo esc_url(home_url('/contacts/')); ?>">Перейти в контакты</a></p>
         <div data-glog-cart aria-live="polite"></div>
         <form data-glog-checkout hidden>
             <h3>Заявка на покупку</h3>
@@ -87,6 +84,9 @@ function glog_requests_dialog(): void {
                 <?php endforeach; ?>
             </ul>
             <button type="submit">Отправить заявку</button>
+        </form>
+        <form method="dialog">
+            <button type="submit">Продолжить выбор</button>
         </form>
     </dialog>
     <?php

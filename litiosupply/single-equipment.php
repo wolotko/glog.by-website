@@ -128,20 +128,26 @@
                             <?php endif; ?>
                         <?php endforeach; ?>
                         
-                        <div truck-cta mobile>
-                            <a href="#form" btn>Бесплатная консультация</a>
-                        </div>
-                        
-                        
                     </div>
-                    
-                    <div truck-cta>
-                        <h2>Купить <?php echo get_field('truck_brand'); ?> <?php echo get_field('truck_model'); ?> с доставкой в Беларусь</h2>
-                        
-                        <p>Оставьте заявку для бесплатной консультации и расчёта предложения или позвоните нам: <a href="tel:+375333592626">+375 (33) 359-26-26</a></p>
-                        
-                        <a href="#form" btn>Бесплатная консультация</a>
-                        
+
+                    <div truck-cta class="glog-equipment-order">
+                        <?php if (function_exists('glog_requests_frontend')) { glog_requests_frontend(); } ?>
+                        <a href="<?php echo esc_url(home_url('/contacts/')); ?>"
+                           btn
+                           <?php if (function_exists('glog_requests_frontend')) : ?>data-glog-add="<?php echo esc_attr(get_the_ID()); ?>"<?php endif; ?>>
+                            Добавить в корзину
+                        </a>
+                        <?php if (function_exists('glog_requests_settings')) : ?>
+                            <?php $request_settings = glog_requests_settings(); ?>
+                            <p class="glog-equipment-order-links">
+                                <?php if ($request_settings['delivery']) : ?>
+                                    <a href="<?php echo esc_url($request_settings['delivery']); ?>">Условия поставки и оплаты</a>
+                                <?php endif; ?>
+                                <?php if ($request_settings['returns']) : ?>
+                                    <a href="<?php echo esc_url($request_settings['returns']); ?>">Условия возврата</a>
+                                <?php endif; ?>
+                            </p>
+                        <?php endif; ?>
                     </div>
                 </div>
             </div>
