@@ -63,7 +63,10 @@
                         <div class="basic-options-row">
                             <div>Код позиции</div>
                             <i></i>
-                            <div><?php echo esc_html(sprintf('GLG-1%05d', get_the_ID())); ?></div>
+                            <div>
+                                <span id="equipment-position-code"><?php echo esc_html(sprintf('GLG-1%05d', get_the_ID())); ?></span>
+                                <button type="button" id="copy-equipment-position-code" hidden>Копировать</button>
+                            </div>
                         </div>
                         <div class="basic-options-row">
                             <div>Год выпуска</div>
@@ -406,5 +409,29 @@
 
     </script>    
     <!-- litespeed_nooptimize -->
+
+    <script>
+        {
+            const code = document.getElementById('equipment-position-code');
+            const button = document.getElementById('copy-equipment-position-code');
+
+            if (code && button) {
+                button.hidden = false;
+                button.addEventListener('click', async () => {
+                    try {
+                        await navigator.clipboard.writeText(code.textContent.trim());
+                        button.textContent = 'Скопировано';
+                    } catch {
+                        const range = document.createRange();
+                        range.selectNodeContents(code);
+                        const selection = window.getSelection();
+                        selection.removeAllRanges();
+                        selection.addRange(range);
+                        button.textContent = 'Скопируйте код вручную';
+                    }
+                });
+            }
+        }
+    </script>
 
 <?php get_footer(); ?>
