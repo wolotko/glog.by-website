@@ -3,7 +3,7 @@
  * Plugin Name: GLOG Equipment Requests
  * Description: Гостевая подборка техники и заявки на покупку.
  * Version: 1.0.11
- * Author: Justpage
+ * Author: Justpage.
  * Author URI: https://justpage.pl/
  * Requires PHP: 7.4
  */
