@@ -2081,6 +2081,14 @@ footer span a em
         padding-inline: 20px;
   	}
 }
+.section[text]:has(+ .section[text]) {
+    padding-bottom: 1.5em;
+}
+
+.section[text] + .section[text] {
+    padding-top: 1.5em;
+}
+
 [text] ul
 {
     color:#000 !important;
