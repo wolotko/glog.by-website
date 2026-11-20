@@ -1,14 +1,6 @@
 <?php get_header('', array( 'type' => 'text' )); ?>
 
 <style>
-    .equipment-code-value {
-        display: inline-flex;
-        align-items: center;
-        justify-content: flex-end;
-        gap: 4px;
-        white-space: nowrap;
-    }
-
     #copy-equipment-position-code:not([hidden]) {
         display: inline-grid;
         place-items: center;
@@ -101,19 +93,17 @@
                         <div class="basic-options-row">
                             <div>Код позиции</div>
                             <i></i>
-                            <div>
-                                <span class="equipment-code-value">
-                                    <span id="equipment-position-code"><?php echo esc_html(sprintf('GLG-1%05d', get_the_ID())); ?></span>
-                                    <button type="button" id="copy-equipment-position-code" aria-label="Копировать код позиции" title="Копировать код позиции" hidden>
-                                        <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
-                                            <g class="copy-outline">
-                                                <rect x="8" y="8" width="12" height="12" rx="2"/>
-                                                <path d="M16 8V6a2 2 0 0 0-2-2H6a2 2 0 0 0-2 2v8a2 2 0 0 0 2 2h2"/>
-                                            </g>
-                                            <path class="copy-check" d="m5 12 4 4L19 6"/>
-                                        </svg>
-                                    </button>
-                                </span>
+                            <div style="display:flex;flex-wrap:nowrap;align-items:center;justify-content:flex-end;gap:4px;white-space:nowrap">
+                                <span id="equipment-position-code"><?php echo esc_html(sprintf('GLG-1%05d', get_the_ID())); ?></span>
+                                <button type="button" id="copy-equipment-position-code" aria-label="Копировать код позиции" title="Копировать код позиции" hidden>
+                                    <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                                        <g class="copy-outline">
+                                            <rect x="8" y="8" width="12" height="12" rx="2"/>
+                                            <path d="M16 8V6a2 2 0 0 0-2-2H6a2 2 0 0 0-2 2v8a2 2 0 0 0 2 2h2"/>
+                                        </g>
+                                        <path class="copy-check" d="m5 12 4 4L19 6"/>
+                                    </svg>
+                                </button>
                             </div>
                         </div>
                         <div class="basic-options-row">
