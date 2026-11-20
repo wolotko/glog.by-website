@@ -1,97 +1,255 @@
-.glog-requests-dialog {
+#glog-requests-dialog {
+    background: #fff;
     border: 0;
-    border-radius: 12px;
+    border-radius: 18px;
     box-shadow: 0 16px 48px rgb(0 0 0 / 24%);
     box-sizing: border-box;
-    color: #101e34;
+    color: #0b2342;
+    font-family: "Montserrat", sans-serif;
+    font-size: 14px;
+    line-height: 1.45;
     margin: auto;
-    max-height: 90vh;
+    max-height: calc(100vh - 32px);
+    max-height: calc(100dvh - 32px);
     overflow: auto;
+    overscroll-behavior: contain;
     padding: 24px;
-    width: min(640px, calc(100% - 32px));
+    width: min(680px, calc(100% - 32px));
 }
 
-.glog-requests-dialog::backdrop {
-    background: rgb(10 21 36 / 55%);
+#glog-requests-dialog::backdrop {
+    background: rgb(10 21 36 / 62%);
 }
 
-.glog-requests-dialog [hidden],
+#glog-requests-dialog [hidden],
+#glog-requests-dialog [data-glog-checkout][hidden] + .glog-requests-actions .glog-equipment-order-button,
 .glog-request-open [hidden] {
     display: none;
 }
 
-.glog-requests-heading {
-    align-items: center;
-    display: flex;
-    justify-content: space-between;
-}
-
-.glog-requests-heading h2 {
+#glog-requests-dialog :is(h2, h3, p, form, ul) {
     margin: 0;
 }
 
-.glog-requests-dialog button,
-.glog-request-add,
-.glog-request-open {
-    background: #edf2f8;
-    border: 1px solid #c6d3e1;
-    border-radius: 6px;
-    color: #101e34;
+#glog-requests-dialog .glog-requests-heading {
+    align-items: center;
+    display: flex;
+    gap: 12px;
+    justify-content: space-between;
+    margin-bottom: 10px;
+}
+
+#glog-requests-dialog .glog-requests-heading h2 {
+    font-size: clamp(25px, 4vw, 30px);
+    font-weight: 650;
+    line-height: 1.2;
+}
+
+#glog-requests-dialog h3 {
+    font-size: 20px;
+    font-weight: 650;
+    line-height: 1.3;
+    margin-bottom: 10px;
+}
+
+#glog-requests-dialog button:disabled {
+    cursor: default;
+    opacity: 0.5;
+}
+
+#glog-requests-dialog .glog-requests-close,
+#glog-requests-dialog .glog-request-quantity button,
+#glog-requests-dialog .glog-requests-text-button {
+    background: transparent;
+    border: 0;
+    color: inherit;
     cursor: pointer;
     font: inherit;
-    padding: 7px 12px;
+    padding: 0 6px;
 }
 
-.glog-requests-dialog [data-glog-checkout] button {
-    background: #173858;
-    border-color: #173858;
-    color: #fff;
+#glog-requests-dialog .glog-requests-close {
+    background: #f0f2f6;
+    border-radius: 50%;
+    font-size: 23px;
+    height: 42px;
+    line-height: 1;
+    width: 42px;
 }
 
-.glog-requests-dialog button:disabled {
-    cursor: wait;
-    opacity: 0.65;
+#glog-requests-dialog .glog-requests-text-button:hover {
+    text-decoration: underline;
 }
 
-.glog-requests-dialog label,
-.glog-request-items li > span {
-    display: block;
-}
-
-.glog-requests-dialog input {
-    box-sizing: border-box;
-    color: inherit;
-    font: inherit;
-    margin-bottom: 8px;
-}
-
-.glog-requests-dialog input:not([type="number"]) {
-    display: block;
-    width: 100%;
-}
-
-.glog-requests-dialog input[type="number"] {
-    width: 5em;
-}
-
-.glog-requests-policies,
-.glog-request-items {
+#glog-requests-dialog .glog-request-items,
+#glog-requests-dialog .glog-requests-policies {
     list-style: none;
     padding: 0;
 }
 
-.glog-request-items li {
-    border-bottom: 1px solid #e1e7ee;
-    padding: 8px 0;
+#glog-requests-dialog .glog-request-items li {
+    align-items: center;
+    border-bottom: 1px solid #dfe4eb;
+    display: grid;
+    gap: 8px 12px;
+    grid-template-columns: minmax(0, 1fr) auto;
+    padding: 9px 0;
 }
 
-.glog-requests-dialog a {
+#glog-requests-dialog .glog-request-items a {
     color: inherit;
+    font-weight: 650;
+    overflow-wrap: anywhere;
+    text-decoration: none;
+}
+
+#glog-requests-dialog .glog-request-items a:hover {
     text-decoration: underline;
 }
 
-.glog-equipment-order .button-3,
-.glog-equipment-order a[btn] {
+#glog-requests-dialog .glog-request-item-meta,
+#glog-requests-dialog .glog-requests-note {
+    color: #4b596a;
+    font-size: 13px;
+}
+
+#glog-requests-dialog .glog-request-item-meta {
+    display: block;
+    margin-top: 3px;
+}
+
+#glog-requests-dialog .glog-request-item-controls,
+#glog-requests-dialog .glog-request-quantity {
+    align-items: center;
+    display: flex;
+    gap: 4px;
+}
+
+#glog-requests-dialog .glog-request-quantity {
+    border: 1px solid #dfe4eb;
+    border-radius: 8px;
+    gap: 0;
+}
+
+#glog-requests-dialog .glog-request-item-controls button {
+    font-size: 13px;
+    min-height: 36px;
+}
+
+#glog-requests-dialog .glog-request-quantity button {
+    font-size: 16px;
+    width: 32px;
+}
+
+#glog-requests-dialog .glog-request-quantity input {
+    appearance: textfield;
+    background: transparent;
+    border: 0;
+    box-sizing: border-box;
+    color: inherit;
+    font: inherit;
+    height: 36px;
+    margin: 0;
+    padding: 0;
+    text-align: center;
+    width: 28px;
+}
+
+#glog-requests-dialog .glog-request-quantity input::-webkit-inner-spin-button,
+#glog-requests-dialog .glog-request-quantity input::-webkit-outer-spin-button {
+    appearance: none;
+}
+
+#glog-requests-dialog .glog-requests-total {
+    align-items: baseline;
+    display: flex;
+    gap: 4px 12px;
+    justify-content: space-between;
+    margin: 14px 0 4px;
+}
+
+#glog-requests-dialog .glog-requests-total strong {
+    font-size: clamp(17px, 3vw, 21px);
+    white-space: nowrap;
+}
+
+#glog-requests-dialog [data-glog-checkout] {
+    margin-top: 16px;
+}
+
+#glog-requests-dialog .glog-requests-fields {
+    display: grid;
+    gap: 8px 12px;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+}
+
+#glog-requests-dialog .glog-requests-address {
+    grid-column: 1 / -1;
+}
+
+#glog-requests-dialog .glog-requests-fields label {
+    display: grid;
+    gap: 4px;
+}
+
+#glog-requests-dialog .glog-requests-fields input {
+    background: #fff;
+    border: 1px solid #cdd5e0;
+    border-radius: 8px;
+    box-sizing: border-box;
+    color: inherit;
+    font: inherit;
+    font-size: 16px;
+    margin: 0;
+    min-height: 44px;
+    min-width: 0;
+    padding: 8px 10px;
+    width: 100%;
+}
+
+#glog-requests-dialog [data-glog-checkout] .glog-requests-note,
+#glog-requests-dialog .glog-requests-policies {
+    margin-top: 8px;
+}
+
+#glog-requests-dialog .glog-requests-policies {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 3px 12px;
+}
+
+#glog-requests-dialog .glog-requests-policies a,
+#glog-requests-dialog [data-glog-add-error] a {
+    color: inherit;
+    font-size: 13px;
+    text-decoration: underline;
+    text-underline-offset: 3px;
+}
+
+#glog-requests-dialog .glog-requests-actions {
+    align-items: center;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 6px 12px;
+    margin-top: 13px;
+}
+
+.glog-equipment-order .glog-equipment-order-button,
+#glog-requests-dialog .glog-requests-actions .glog-equipment-order-button {
+    box-sizing: border-box;
+    cursor: pointer;
+    font-size: 16px;
+    line-height: 1.1;
+    min-height: 52px;
+    padding-inline: 30px;
+    width: auto;
+}
+
+#glog-requests-dialog .glog-requests-actions .glog-requests-text-button {
+    min-height: 44px;
+}
+
+.glog-equipment-order .button-3 {
     box-sizing: border-box;
 }
 
@@ -107,13 +265,54 @@
     text-decoration: underline;
 }
 
+.glog-equipment-order p.glog-equipment-order-notice {
+    color: #4b596a;
+    font-size: 13px;
+    line-height: 1.5;
+    margin: 12px 0 0;
+}
+
+.glog-request-add,
+.glog-request-open {
+    background: #edf2f8;
+    border: 1px solid #c6d3e1;
+    border-radius: 6px;
+    color: #101e34;
+    cursor: pointer;
+    font: inherit;
+    padding: 7px 12px;
+}
+
 @media (max-width: 540px) {
-    .glog-requests-dialog {
+    #glog-requests-dialog {
         border-radius: 0;
         height: 100%;
-        max-height: 100%;
-        max-width: 100%;
-        padding: 16px;
+        height: 100dvh;
+        max-height: none;
+        max-width: none;
+        padding: max(16px, env(safe-area-inset-top)) max(16px, env(safe-area-inset-right)) max(16px, env(safe-area-inset-bottom)) max(16px, env(safe-area-inset-left));
         width: 100%;
+    }
+
+    #glog-requests-dialog .glog-request-items li,
+    #glog-requests-dialog .glog-requests-fields {
+        grid-template-columns: minmax(0, 1fr);
+    }
+
+    #glog-requests-dialog .glog-request-item-controls button {
+        min-height: 44px;
+    }
+
+    #glog-requests-dialog .glog-request-quantity button {
+        width: 44px;
+    }
+
+    #glog-requests-dialog .glog-requests-actions {
+        display: grid;
+    }
+
+    #glog-requests-dialog .glog-requests-close {
+        height: 44px;
+        width: 44px;
     }
 }

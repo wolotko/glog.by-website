@@ -133,7 +133,7 @@
                     <div truck-cta class="glog-equipment-order">
                         <?php if (function_exists('glog_requests_frontend')) { glog_requests_frontend(); } ?>
                         <a href="<?php echo esc_url(home_url('/contacts/')); ?>"
-                           btn
+                           class="btn btn-accent glog-equipment-order-button"
                            <?php if (function_exists('glog_requests_frontend')) : ?>data-glog-add="<?php echo esc_attr(get_the_ID()); ?>"<?php endif; ?>>
                             Добавить в корзину
                         </a>
@@ -148,6 +148,7 @@
                                 <?php endif; ?>
                             </p>
                         <?php endif; ?>
+                        <p class="glog-equipment-order-notice">ООО „ЛитиоТранс“ не осуществляет розничную и оптовую торговлю техникой с собственного склада. Компания оказывает услуги логистического агента по поиску, сопровождению сделки и доставке спецтехники под заказ для юридических лиц и ИП. Указанные цены носят справочный характер, не являются публичной офертой (ст. 407 ГК РБ) и используются для предварительного расчета стоимости услуг поставки.</p>
                     </div>
                 </div>
             </div>

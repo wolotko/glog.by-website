@@ -5,6 +5,7 @@
     const cart = dialog.querySelector('[data-glog-cart]');
     const status = dialog.querySelector('[data-glog-dialog-status]');
     const form = dialog.querySelector('[data-glog-checkout]');
+    const submit = dialog.querySelector('[form="glog-requests-checkout"]');
     const addError = dialog.querySelector('[data-glog-add-error]');
     const format = new Intl.NumberFormat('ru-BY');
     let quote = '';
@@ -60,12 +61,18 @@
         list.className = 'glog-request-items';
         for (const item of [...data.items, ...data.unavailable]) {
             const line = element('li');
+            const details = element('div');
+            const controls = element('div');
+            controls.className = 'glog-request-item-controls';
             if (item.url) {
                 const link = element('a', item.title);
                 link.href = item.url;
-                line.append(link, element('span', item.code + ' · ' + printPrice(item.unit_price) + ' за ед.'));
+                const meta = element('span', item.code + ' · ' + printPrice(item.unit_price) + ' за ед.');
+                meta.className = 'glog-request-item-meta';
+                details.append(link, meta);
 
-                const label = element('label', 'Количество ');
+                const stepper = element('div');
+                stepper.className = 'glog-request-quantity';
                 const quantity = element('input');
                 quantity.type = 'number';
                 quantity.min = '1';
@@ -78,22 +85,41 @@
                         quantity.value = item.quantity;
                         return;
                     }
-                    return changeQuantity(item.product_id, Number(quantity.value));
+                    changeQuantity(item.product_id, Number(quantity.value), 'input');
                 });
-                label.append(quantity);
-                line.append(label);
+
+                for (const [delta, symbol, label] of [[-1, '−', 'Уменьшить'], [1, '+', 'Увеличить']]) {
+                    const step = element('button', symbol);
+                    step.type = 'button';
+                    step.dataset.step = String(delta);
+                    step.setAttribute('aria-label', label + ' количество для ' + item.title);
+                    const next = item.quantity + delta;
+                    step.disabled = next < 1 || next > 99;
+                    step.addEventListener('click', () => changeQuantity(item.product_id, next, '[data-step="' + delta + '"]'));
+                    stepper.append(step);
+                }
+                stepper.insertBefore(quantity, stepper.lastChild);
+                controls.append(stepper);
             } else {
-                line.append(element('span', item.code + ' больше недоступна.'));
+                details.append(element('span', item.code + ' больше недоступна.'));
             }
 
             const remove = element('button', 'Удалить');
             remove.type = 'button';
+            remove.className = 'glog-requests-text-button';
             remove.setAttribute('aria-label', 'Удалить ' + (item.title || item.code));
             remove.addEventListener('click', () => changeQuantity(item.product_id, 0));
-            line.append(remove);
+            controls.append(remove);
+            line.dataset.productId = item.product_id;
+            line.append(details, controls);
             list.append(line);
         }
-        cart.append(list, element('p', 'Расчётная сумма: ' + printPrice(data.total)));
+        const summary = element('p');
+        summary.className = 'glog-requests-total';
+        summary.append(element('span', 'Расчётная сумма'), element('strong', printPrice(data.total)));
+        const note = element('p', 'Поставка под заказ для юридических лиц и ИП. Менеджер подтвердит цену и условия поставки.');
+        note.className = 'glog-requests-note';
+        cart.append(list, summary, note);
     }
 
     async function run(task, errorNode) {
@@ -111,10 +137,13 @@
         }
     }
 
-    async function changeQuantity(productId, quantity) {
+    async function changeQuantity(productId, quantity, focusSelector) {
         await run(async () => {
             status.textContent = '';
             render(await call('quantity', { product_id: productId, quantity, revision }));
+            const row = cart.querySelector('[data-product-id="' + productId + '"]');
+            const control = focusSelector && row?.querySelector(focusSelector);
+            (control && !control.disabled ? control : row?.querySelector('input') || dialog.querySelector('[autofocus]')).focus();
         }, status);
     }
 
@@ -152,7 +181,6 @@
 
     form.addEventListener('submit', event => {
         event.preventDefault();
-        const submit = form.querySelector('[type="submit"]');
         const data = Object.fromEntries(new FormData(form));
         run(async () => {
             submit.disabled = true;
