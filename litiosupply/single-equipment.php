@@ -1,5 +1,43 @@
 <?php get_header('', array( 'type' => 'text' )); ?>
 
+<style>
+    .equipment-code-value {
+        display: inline-flex;
+        align-items: center;
+        justify-content: flex-end;
+        gap: 4px;
+        white-space: nowrap;
+    }
+
+    #copy-equipment-position-code:not([hidden]) {
+        display: inline-grid;
+        place-items: center;
+        flex: 0 0 24px;
+        width: 24px;
+        height: 24px;
+        padding: 0;
+        border: 0;
+        border-radius: 4px;
+        background: transparent;
+        color: inherit;
+        cursor: pointer;
+    }
+
+    #copy-equipment-position-code:hover,
+    #copy-equipment-position-code:focus-visible {
+        background: rgba(0, 0, 0, 0.07);
+    }
+
+    #copy-equipment-position-code .copy-check,
+    #copy-equipment-position-code[data-copied] .copy-outline {
+        display: none;
+    }
+
+    #copy-equipment-position-code[data-copied] .copy-check {
+        display: inline;
+    }
+</style>
+
   
     <?php if ( have_posts() ) : while ( have_posts() ) : the_post(); ?>
     
@@ -64,8 +102,18 @@
                             <div>Код позиции</div>
                             <i></i>
                             <div>
-                                <span id="equipment-position-code"><?php echo esc_html(sprintf('GLG-1%05d', get_the_ID())); ?></span>
-                                <button type="button" id="copy-equipment-position-code" hidden>Копировать</button>
+                                <span class="equipment-code-value">
+                                    <span id="equipment-position-code"><?php echo esc_html(sprintf('GLG-1%05d', get_the_ID())); ?></span>
+                                    <button type="button" id="copy-equipment-position-code" aria-label="Копировать код позиции" title="Копировать код позиции" hidden>
+                                        <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                                            <g class="copy-outline">
+                                                <rect x="8" y="8" width="12" height="12" rx="2"/>
+                                                <path d="M16 8V6a2 2 0 0 0-2-2H6a2 2 0 0 0-2 2v8a2 2 0 0 0 2 2h2"/>
+                                            </g>
+                                            <path class="copy-check" d="m5 12 4 4L19 6"/>
+                                        </svg>
+                                    </button>
+                                </span>
                             </div>
                         </div>
                         <div class="basic-options-row">
@@ -420,14 +468,18 @@
                 button.addEventListener('click', async () => {
                     try {
                         await navigator.clipboard.writeText(code.textContent.trim());
-                        button.textContent = 'Скопировано';
+                        button.setAttribute('data-copied', '');
+                        button.title = 'Код скопирован';
+                        button.setAttribute('aria-label', button.title);
                     } catch {
                         const range = document.createRange();
                         range.selectNodeContents(code);
                         const selection = window.getSelection();
                         selection.removeAllRanges();
                         selection.addRange(range);
-                        button.textContent = 'Скопируйте код вручную';
+                        button.removeAttribute('data-copied');
+                        button.title = 'Скопируйте выделенный код вручную';
+                        button.setAttribute('aria-label', button.title);
                     }
                 });
             }
