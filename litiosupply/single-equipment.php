@@ -106,6 +106,13 @@
                                 </button>
                             </div>
                         </div>
+                        <?php if ($price_byn > 0) : ?>
+                            <div class="basic-options-row">
+                                <div>Расчётная цена</div>
+                                <i></i>
+                                <div><?php echo esc_html(number_format($price_byn, 0, ',', ' ')); ?>&nbsp;руб.</div>
+                            </div>
+                        <?php endif; ?>
                         <div class="basic-options-row">
                             <div>Год выпуска</div>
                             <i></i>
